@@ -11,3 +11,6 @@ export default function addModelsToContext(context) {
 //
 import User from './User';
 models.User = User;
+
+import Player from './Player';
+models.Player = Player;

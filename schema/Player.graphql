@@ -1,0 +1,44 @@
+type Player {
+  id: ObjID!
+  name: String!
+  claim: Boolean!
+  elo: Int!
+  joinDate: Date!
+  belongsTo: User
+  lastPlayed: [Date]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  players(lastCreatedAt: Float, limit: Int): [Player!]
+  player(id: ObjID!): Player
+}
+
+input CreatePlayerInput {
+  name: String!
+  claim: Boolean!
+  elo: Int!
+  joinDateId: ObjID!
+  belongsToId: ObjID
+}
+
+input UpdatePlayerInput {
+  name: String!
+  claim: Boolean!
+  elo: Int!
+  joinDateId: ObjID!
+  belongsToId: ObjID
+}
+
+extend type Mutation {
+  createPlayer(input: CreatePlayerInput!): Player
+  updatePlayer(id: ObjID!, input: UpdatePlayerInput!): Player
+  removePlayer(id: ObjID!): Boolean
+}
+
+extend type Subscription {
+  playerCreated: Player
+  playerUpdated: Player
+  playerRemoved: ObjID
+}

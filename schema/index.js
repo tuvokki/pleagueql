@@ -23,8 +23,10 @@ const typeDefs = [`
 
 typeDefs.push(requireGraphQL('./Profile.graphql'));
 typeDefs.push(requireGraphQL('./Role.graphql'));
+typeDefs.push(requireGraphQL('./Date.graphql'));
 
 export default typeDefs;
 
 //
 typeDefs.push(requireGraphQL('./User.graphql'));
+typeDefs.push(requireGraphQL('./Player.graphql'));

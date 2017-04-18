@@ -27,3 +27,6 @@ export default resolvers;
 //
 import userResolvers from './User';
 merge(resolvers, userResolvers);
+
+import playerResolvers from './Player';
+merge(resolvers, playerResolvers);
