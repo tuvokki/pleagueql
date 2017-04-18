@@ -21,6 +21,9 @@ const typeDefs = [`
   }
 `];
 
+typeDefs.push(requireGraphQL('./Profile.graphql'));
+typeDefs.push(requireGraphQL('./Role.graphql'));
+
 export default typeDefs;
 
 //

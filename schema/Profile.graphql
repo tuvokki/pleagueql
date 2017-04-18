@@ -1,0 +1,5 @@
+type Profile {
+  firstname: String!
+  lastname: String!
+  role: Role! @enum
+}
