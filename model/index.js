@@ -9,3 +9,5 @@ export default function addModelsToContext(context) {
 }
 
 //
+import User from './User';
+models.User = User;

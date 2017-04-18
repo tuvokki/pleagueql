@@ -27,3 +27,4 @@ typeDefs.push(requireGraphQL('./Role.graphql'));
 export default typeDefs;
 
 //
+typeDefs.push(requireGraphQL('./User.graphql'));

@@ -25,3 +25,5 @@ resolvers.ObjID = new GraphQLScalarType({
 export default resolvers;
 
 //
+import userResolvers from './User';
+merge(resolvers, userResolvers);
