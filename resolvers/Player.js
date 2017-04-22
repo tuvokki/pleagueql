@@ -12,12 +12,20 @@ const resolvers = {
         //   return Player.belongsTo(player);
         // },
 
-        // lastPlayed(player, args, { Player }) {
-        //   return Player.lastPlayed(player, args);
-        // },
+        lastPlayed(player, args, { Player }) {
+            console.log('yolo', player)
+            if (player.lastPlayed)
+                return player.lastPlayed.slice(-1)[0]
+                    // return Player.lastPlayed(player, args);
+            return 0
+        },
     },
     Query: {
         players(root, { lastCreatedAt, limit }, { Player }) {
+            return Player.all({ lastCreatedAt, limit });
+        },
+
+        active(root, { lastCreatedAt, limit }, { Player }) {
             return Player.active({ lastCreatedAt, limit });
         },
 

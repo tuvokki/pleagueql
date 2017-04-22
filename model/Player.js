@@ -23,20 +23,19 @@ export default class Player {
         }).sort({ elo: -1 }).limit(limit).toArray();
     }
 
-    joinDate(player) {
-        return this.context.Date.findOneById(player.joinDateId);
-    }
+    // joinDate(player) {
+    //     return this.context.Date.findOneById(player.joinDateId);
+    // }
 
     belongsTo(player) {
         return this.context.User.findOneById(player.belongsToId);
     }
 
-    lastPlayed(player, args) {
-        return this.context.Date.collection.find({
-            _id: { $in: player.lastPlayedIds || [] },
-            createdAt: { $gt: lastCreatedAt },
-        }).sort({ createdAt: 1 }).limit(limit).toArray();
-    }
+    // lastPlayed(player, args) {
+    //     return this.context.Date.collection.find({
+    //         _id: { $in: player.lastPlayedIds || [] },
+    //     }).sort({ createdAt: 1 }).toArray();
+    // }
 
     async insert(doc) {
         const docToInsert = Object.assign({}, doc, {

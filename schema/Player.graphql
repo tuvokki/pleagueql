@@ -27,13 +27,15 @@ type Player {
   joinDate: Date
   retired: Boolean
   belongsTo: User
-  lastPlayed: [Float!]
+  # lastPlayed: [Float!]
+  lastPlayed: Float
   createdAt: Float!
   updatedAt: Float!
 }
 
 extend type Query {
   players(lastCreatedAt: Float, limit: Int): [Player!]
+  active(lastCreatedAt: Float, limit: Int): [Player!]
   player(id: ObjID!): Player
 }
 
