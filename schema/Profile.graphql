@@ -1,5 +1,7 @@
+# { "firstname" : "Lt. Commander", "lastname" : "Tuvok", "role" : "admin" }
+
 type Profile {
   firstname: String!
   lastname: String!
-  role: Role! @enum
+  role: Role @enum
 }

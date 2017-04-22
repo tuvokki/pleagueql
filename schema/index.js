@@ -24,6 +24,7 @@ const typeDefs = [`
 typeDefs.push(requireGraphQL('./Profile.graphql'));
 typeDefs.push(requireGraphQL('./Role.graphql'));
 typeDefs.push(requireGraphQL('./Date.graphql'));
+typeDefs.push(requireGraphQL('./Email.graphql'));
 
 export default typeDefs;
 

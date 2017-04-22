@@ -1,0 +1,8 @@
+#{ 
+#  "address" : "tuvokki@gmail.com",
+#   "verified" : false
+#}
+type Email {
+  address: String!
+  verified: Boolean!
+}
