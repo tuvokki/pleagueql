@@ -1,11 +1,33 @@
+# { "_id" : "BTgHJZngTQ7PAhwiK",
+#   "name" : "Tim",
+#   "elo" : 1178,
+#   "joinDate" : ISODate("2016-04-29T14:46:57.147Z"),
+#   "lastPlayed" : [ ISODate("2016-10-26T10:50:45.033Z") ]
+# }
+# { "_id" : "DaKzJbzsTYtyhpwP9",
+#   "name" : "Wouter",
+#   "claim" : true,
+#   "elo" : 1614,
+#   "joinDate" : ISODate("2016-04-16T14:29:50.450Z"),
+#   "belongsTo" : "ppu9ELJt8BTfM78Eb",
+#   "lastPlayed" : [ ISODate("2017-04-21T10:47:01.227Z"), ISODate("2017-04-21T14:54:39.740Z") ]
+# }
+# { "_id" : "Khm4p4NDieSYhCsmF",
+#   "name" : "Rogier",
+#   "elo" : 1700,
+#   "joinDate" : ISODate("2016-04-29T14:50:44.638Z"),
+#   "retired" : true,
+#   "retireDate" : ISODate("2016-09-06T14:38:36.621Z")
+# }
 type Player {
   id: ObjID!
   name: String!
   claim: Boolean!
   elo: Int!
-  joinDate: Date!
+  joinDate: Date
+  retired: Boolean
   belongsTo: User
-  lastPlayed: [Date]
+  lastPlayed: [Float!]
   createdAt: Float!
   updatedAt: Float!
 }
