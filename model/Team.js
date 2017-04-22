@@ -21,7 +21,7 @@ export default class Team {
     }
 
     players(team) {
-        return this.context.Player.findOneById(team.playersId);
+        return [this.context.Player.findOneById(team.players[0]), this.context.Player.findOneById(team.players[1])];
     }
 
     async insert(doc) {
