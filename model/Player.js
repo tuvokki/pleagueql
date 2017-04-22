@@ -13,8 +13,8 @@ export default class Player {
         return this.loader.load(id);
     }
 
-    all({ lastCreatedAt = 0, limit = 10 }) {
-        return this.collection.find({}).sort({ elo: -1 }).limit(limit).toArray();
+    all({ lastCreatedAt = 0 }) {
+        return this.collection.find({}).sort({ elo: -1 }).toArray();
     }
 
     active({ lastCreatedAt = 0, limit = 10 }) {

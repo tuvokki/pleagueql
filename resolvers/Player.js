@@ -1,3 +1,5 @@
+import User from './User';
+
 const resolvers = {
     Player: {
         id(player) {
@@ -8,20 +10,20 @@ const resolvers = {
         //   return Player.joinDate(player);
         // },
 
-        // belongsTo(player, args, { Player }) {
-        //   return Player.belongsTo(player);
-        // },
+        belongsTo(player, args, { Player }) {
+            // return User.findOneById(player._id);//no
+            return User.Query.user(undefined, { id: player._id }, { User });
+        },
 
         lastPlayed(player, args, { Player }) {
-            console.log('yolo', player)
             if (player.lastPlayed)
                 return new Date(player.lastPlayed.slice(-1)[0]).toISOString()
-            return 0
+            return 'No last played record.'
         },
     },
     Query: {
-        players(root, { lastCreatedAt, limit }, { Player }) {
-            return Player.all({ lastCreatedAt, limit });
+        players(root, { lastCreatedAt }, { Player }) {
+            return Player.all({ lastCreatedAt });
         },
 
         active(root, { lastCreatedAt, limit }, { Player }) {
