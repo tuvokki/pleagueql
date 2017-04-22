@@ -1,42 +1,28 @@
 import DataLoader from 'dataloader';
 import findByIds from 'mongo-find-by-ids';
 
-export default class Player {
+export default class Team {
     constructor(context) {
         this.context = context;
-        this.collection = context.db.collection('players');
+        this.collection = context.db.collection('teams');
         this.pubsub = context.pubsub;
         this.loader = new DataLoader(ids => findByIds(this.collection, ids));
     }
 
     findOneById(id) {
+        console.log('Find by this id: ', id)
         return this.loader.load(id);
     }
 
-    all({ lastCreatedAt = 0 }) {
-        return this.collection.find({}).sort({ elo: -1 }).toArray();
-    }
-
-    active({ lastCreatedAt = 0, limit = 10 }) {
+    all({ lastCreatedAt = 0, limit = 10 }) {
         return this.collection.find({
-            retired: { $in: [null, false] }
-        }).sort({ elo: -1 }).limit(limit).toArray();
+            // createdAt: { $gt: lastCreatedAt },
+        }).sort({ teamElo: -1 }).limit(limit).toArray();
     }
 
-    // joinDate(player) {
-    //     return this.context.Date.findOneById(player.joinDateId);
-    // }
-
-    belongsTo(player) {
-        if (player.belongsTo)
-            return this.context.User.findOneById(player.belongsTo);
+    players(team) {
+        return this.context.Player.findOneById(team.playersId);
     }
-
-    // lastPlayed(player, args) {
-    //     return this.context.Date.collection.find({
-    //         _id: { $in: player.lastPlayedIds || [] },
-    //     }).sort({ createdAt: 1 }).toArray();
-    // }
 
     async insert(doc) {
         const docToInsert = Object.assign({}, doc, {
@@ -44,7 +30,7 @@ export default class Player {
             updatedAt: Date.now(),
         });
         const id = (await this.collection.insertOne(docToInsert)).insertedId;
-        this.pubsub.publish('playerInserted', await this.findOneById(id));
+        this.pubsub.publish('teamInserted', await this.findOneById(id));
         return id;
     }
 
@@ -55,14 +41,14 @@ export default class Player {
             }),
         });
         this.loader.clear(id);
-        this.pubsub.publish('playerUpdated', await this.findOneById(id));
+        this.pubsub.publish('teamUpdated', await this.findOneById(id));
         return ret;
     }
 
     async removeById(id) {
         const ret = this.collection.remove({ _id: id });
         this.loader.clear(id);
-        this.pubsub.publish('playerRemoved', id);
+        this.pubsub.publish('teamRemoved', id);
         return ret;
     }
 }

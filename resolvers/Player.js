@@ -1,5 +1,3 @@
-import User from './User';
-
 const resolvers = {
     Player: {
         id(player) {
@@ -11,8 +9,7 @@ const resolvers = {
         // },
 
         belongsTo(player, args, { Player }) {
-            // return User.findOneById(player._id);//no
-            return User.Query.user(undefined, { id: player._id }, { User });
+            return Player.belongsTo(player);
         },
 
         lastPlayed(player, args, { Player }) {

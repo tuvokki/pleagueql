@@ -1,0 +1,52 @@
+type Game {
+  id: ObjID!
+  teamRed: Team!
+  teamBlue: Team!
+  teamRedScore: Int!
+  teamBlueScore: Int!
+  startDate: String!
+  winner: ObjID
+  endDate: String!
+  eloChange: Int!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  games(lastCreatedAt: Float, limit: Int): [Game!]
+  game(id: ObjID!): Game
+}
+
+input CreateGameInput {
+  teamRedId: ObjID!
+  teamBlueId: ObjID!
+  teamRedScore: Int!
+  teamBlueScore: Int!
+  startDate: String!
+  winnerId: ObjID!
+  endDate: String!
+  eloChange: Int!
+}
+
+input UpdateGameInput {
+  teamRedId: ObjID!
+  teamBlueId: ObjID!
+  teamRedScore: Int!
+  teamBlueScore: Int!
+  startDate: String!
+  winnerId: ObjID!
+  endDate: String!
+  eloChange: Int!
+}
+
+extend type Mutation {
+  createGame(input: CreateGameInput!): Game
+  updateGame(id: ObjID!, input: UpdateGameInput!): Game
+  removeGame(id: ObjID!): Boolean
+}
+
+extend type Subscription {
+  gameCreated: Game
+  gameUpdated: Game
+  gameRemoved: ObjID
+}

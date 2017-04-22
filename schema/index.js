@@ -31,3 +31,6 @@ export default typeDefs;
 //
 typeDefs.push(requireGraphQL('./User.graphql'));
 typeDefs.push(requireGraphQL('./Player.graphql'));
+typeDefs.push(requireGraphQL('./Team.graphql'));
+
+typeDefs.push(requireGraphQL('./Game.graphql'));

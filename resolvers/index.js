@@ -30,3 +30,9 @@ merge(resolvers, userResolvers);
 
 import playerResolvers from './Player';
 merge(resolvers, playerResolvers);
+
+import teamResolvers from './Team';
+merge(resolvers, teamResolvers);
+
+import gameResolvers from './Game';
+merge(resolvers, gameResolvers);

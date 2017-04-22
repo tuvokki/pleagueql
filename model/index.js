@@ -14,3 +14,9 @@ models.User = User;
 
 import Player from './Player';
 models.Player = Player;
+
+import Team from './Team';
+models.Team = Team;
+
+import Game from './Game';
+models.Game = Game;
