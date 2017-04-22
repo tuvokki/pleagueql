@@ -28,7 +28,7 @@ type Player {
   retired: Boolean
   belongsTo: User
   # lastPlayed: [Float!]
-  lastPlayed: Float
+  lastPlayed: String
   createdAt: Float!
   updatedAt: Float!
 }

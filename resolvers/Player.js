@@ -15,8 +15,7 @@ const resolvers = {
         lastPlayed(player, args, { Player }) {
             console.log('yolo', player)
             if (player.lastPlayed)
-                return player.lastPlayed.slice(-1)[0]
-                    // return Player.lastPlayed(player, args);
+                return new Date(player.lastPlayed.slice(-1)[0]).toISOString()
             return 0
         },
     },
