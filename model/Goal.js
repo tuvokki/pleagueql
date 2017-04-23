@@ -2,56 +2,56 @@ import DataLoader from 'dataloader';
 import findByIds from 'mongo-find-by-ids';
 
 export default class Goal {
-  constructor(context) {
-    this.context = context;
-    this.collection = context.db.collection('goal');
-    this.pubsub = context.pubsub;
-    this.loader = new DataLoader(ids => findByIds(this.collection, ids));
-  }
+    constructor(context) {
+        this.context = context;
+        this.collection = context.db.collection('goals');
+        this.pubsub = context.pubsub;
+        this.loader = new DataLoader(ids => findByIds(this.collection, ids));
+    }
 
-  findOneById(id) {
-    return this.loader.load(id);
-  }
+    findOneById(id) {
+        return this.loader.load(id);
+    }
 
-  all({ lastCreatedAt = 0, limit = 10 }) {
-    return this.collection.find({
-      createdAt: { $gt: lastCreatedAt },
-    }).sort({ createdAt: 1 }).limit(limit).toArray();
-  }
+    all({ lastCreatedAt = 0, limit = 10 }) {
+        return this.collection.find({
+            // createdAt: { $gt: lastCreatedAt },
+        }).limit(limit).toArray();
+    }
 
-  player(goal) {
-    return this.context.Player.findOneById(goal.playerId);
-  }
+    player(goal) {
+        return this.context.Player.findOneById(goal.playerId);
+    }
 
-  teamId(goal) {
-    return this.context.Team.findOneById(goal.teamIdId);
-  }
+    teamId(goal) {
+        return this.context.Team.findOneById(goal.teamIdId);
+    }
 
-  async insert(doc) {
-    const docToInsert = Object.assign({}, doc, {
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    });
-    const id = (await this.collection.insertOne(docToInsert)).insertedId;
-    this.pubsub.publish('goalInserted', await this.findOneById(id));
-    return id;
-  }
+    async insert(doc) {
+        const docToInsert = Object.assign({}, doc, {
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+        });
+        const id = (await this.collection.insertOne(docToInsert)).insertedId;
+        this.pubsub.publish('goalInserted', await this.findOneById(id));
+        return id;
+    }
 
-  async updateById(id, doc) {
-    const ret = await this.collection.update({ _id: id }, {
-      $set: Object.assign({}, doc, {
-        updatedAt: Date.now(),
-      }),
-    });
-    this.loader.clear(id);
-    this.pubsub.publish('goalUpdated', await this.findOneById(id));
-    return ret;
-  }
+    async updateById(id, doc) {
+        const ret = await this.collection.update({ _id: id }, {
+            $set: Object.assign({}, doc, {
+                updatedAt: Date.now(),
+            }),
+        });
+        this.loader.clear(id);
+        this.pubsub.publish('goalUpdated', await this.findOneById(id));
+        return ret;
+    }
 
-  async removeById(id) {
-    const ret = this.collection.remove({ _id: id });
-    this.loader.clear(id);
-    this.pubsub.publish('goalRemoved', id);
-    return ret;
-  }
+    async removeById(id) {
+        const ret = this.collection.remove({ _id: id });
+        this.loader.clear(id);
+        this.pubsub.publish('goalRemoved', id);
+        return ret;
+    }
 }
