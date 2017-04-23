@@ -1,0 +1,43 @@
+type Goal {
+  id: ObjID!
+  player: Player!
+  position: String!
+  color: String!
+  own: Boolean!
+  teamId: Team!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  goals(lastCreatedAt: Float, limit: Int): [Goal!]
+  goal(id: ObjID!): Goal
+}
+
+input CreateGoalInput {
+  playerId: ObjID!
+  position: String!
+  color: String!
+  own: Boolean!
+  teamIdId: ObjID!
+}
+
+input UpdateGoalInput {
+  playerId: ObjID!
+  position: String!
+  color: String!
+  own: Boolean!
+  teamIdId: ObjID!
+}
+
+extend type Mutation {
+  createGoal(input: CreateGoalInput!): Goal
+  updateGoal(id: ObjID!, input: UpdateGoalInput!): Goal
+  removeGoal(id: ObjID!): Boolean
+}
+
+extend type Subscription {
+  goalCreated: Goal
+  goalUpdated: Goal
+  goalRemoved: ObjID
+}

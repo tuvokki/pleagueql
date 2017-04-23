@@ -20,3 +20,6 @@ models.Team = Team;
 
 import Game from './Game';
 models.Game = Game;
+
+import Goal from './Goal';
+models.Goal = Goal;

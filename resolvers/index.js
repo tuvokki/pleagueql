@@ -36,3 +36,6 @@ merge(resolvers, teamResolvers);
 
 import gameResolvers from './Game';
 merge(resolvers, gameResolvers);
+
+import goalResolvers from './Goal';
+merge(resolvers, goalResolvers);

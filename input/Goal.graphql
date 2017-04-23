@@ -1,0 +1,7 @@
+type Goal {
+	player: Player!
+	position: String!
+	color: String!
+	own: Boolean!
+	teamId: Team!
+}

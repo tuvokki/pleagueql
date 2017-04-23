@@ -34,3 +34,5 @@ typeDefs.push(requireGraphQL('./Player.graphql'));
 typeDefs.push(requireGraphQL('./Team.graphql'));
 
 typeDefs.push(requireGraphQL('./Game.graphql'));
+
+typeDefs.push(requireGraphQL('./Goal.graphql'));
