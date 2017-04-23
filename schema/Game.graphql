@@ -1,11 +1,11 @@
 type Game {
   id: ObjID!
-  teamRed: Team!
-  teamBlue: Team!
+  teamRed: Team
+  teamBlue: Team
   teamRedScore: Int!
   teamBlueScore: Int!
   startDate: String!
-  winner: ObjID
+  winner: Team
   endDate: String!
   eloChange: Int!
   createdAt: Float!

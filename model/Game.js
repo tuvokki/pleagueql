@@ -16,20 +16,23 @@ export default class Game {
     all({ lastCreatedAt = 0, limit = 10 }) {
         return this.collection.find({
             // createdAt: { $gt: lastCreatedAt },
-        }).sort({ startDate: 1 }).limit(limit).toArray();
+        }).sort({ startDate: -1 }).limit(limit).toArray();
     }
 
     teamRed(game) {
-        return this.context.Team.findOneById(game.teamRedId);
+        return this.context.Team.findOneById(game.teamRed);
     }
 
     teamBlue(game) {
-        return this.context.Team.findOneById(game.teamBlueId);
+        return this.context.Team.findOneById(game.teamBlue);
     }
 
     winner(game) {
-        // console.log('find winner for game: ', game)
-        return this.context.Team.findOneById(game.winner);
+        let w = this.context.Team.findOneById(game.winner)
+        w.then((ww) => {
+            console.log('winner: ', ww)
+        })
+        return w;
     }
 
     async insert(doc) {

@@ -10,8 +10,8 @@ export default class Team {
     }
 
     findOneById(id) {
-        console.log('Find by this id: ', id)
-        return this.loader.load(id);
+        if (id._id)
+            return this.loader.load(id._id);
     }
 
     all({ lastCreatedAt = 0, limit = 10 }) {
