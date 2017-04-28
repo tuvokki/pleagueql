@@ -13,6 +13,12 @@ const resolvers = {
         },
 
         winner(game, args, { Game }) {
+            // TODO: winner is sometimes null which does not add up with the existence if an elochange
+            // let win = Game.winner(game);
+            // if (win)
+            //     win.then((w) => {
+            //         return w.winner;
+            //     })
             return Game.winner(game);
         },
     },

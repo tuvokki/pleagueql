@@ -20,11 +20,8 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const {
     PORT = 3000,
-        WS_PORT = parseInt(PORT, 10) + 1,
-        // MONGO_PORT = parseInt(PORT, 10) + 2,
-        // MONGO_URL = `mongodb://localhost:${MONGO_PORT}/database`,
+        WS_PORT = parseInt(PORT, 10) + 1
 } = process.env;
-
 
 async function startServer() {
     const db = await MongoClient.connect(

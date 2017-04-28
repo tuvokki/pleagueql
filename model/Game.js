@@ -28,11 +28,12 @@ export default class Game {
     }
 
     winner(game) {
-        let w = this.context.Team.findOneById(game.winner)
-        w.then((ww) => {
-            console.log('winner: ', ww)
-        })
-        return w;
+        // let w = this.context.Team.findOneById(game.winner)
+        // w.then((ww) => {
+        //     console.log('winner: ', ww)
+        // })
+        // return w;
+        return this.context.Team.findOneById(game.winner)
     }
 
     async insert(doc) {
