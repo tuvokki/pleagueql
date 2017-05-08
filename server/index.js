@@ -19,88 +19,95 @@ require('dotenv').config()
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const {
-    PORT = 3000,
-        WS_PORT = parseInt(PORT, 10) + 1
+  PORT = 3000,
+  WS_PORT = parseInt(PORT, 10) + 1,
+  MONGO_PORT = parseInt(PORT, 10) + 2,
 } = process.env;
+let MONGO_URL = `mongodb://localhost:${MONGO_PORT}/database`;
 
 async function startServer() {
-    const db = await MongoClient.connect(
-        `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
+  if (process.env.DB_HOST && process.env.DB_PORT && process.env.DB_NAME) {
+    MONGO_URL = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+    if (process.env.DB_USER && process.env.DB_PASS) {
+      MONGO_URL = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+    }
+  }
+  const db = await MongoClient.connect(MONGO_URL);
 
-    const app = express().use('*', cors());
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
+  const app = express().use('*', cors());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
 
-    app.use((req, res, next) => {
-        req.context = addModelsToContext({ db, pubsub });
-        next();
-    });
+  app.use((req, res, next) => {
+    req.context = addModelsToContext({ db, pubsub });
+    next();
+  });
 
-    authenticate(app);
+  authenticate(app);
 
-    app.use('/graphql', (req, res, next) => {
-        passport.authenticate('jwt', { session: false }, (err, user) => {
-            graphqlExpress(() => {
-                // Get the query, the same way express-graphql does it
-                // https://github.com/graphql/express-graphql/blob/3fa6e68582d6d933d37fa9e841da5d2aa39261cd/src/index.js#L257
-                const query = req.query.query || req.body.query;
-                if (query && query.length > 2000) {
-                    // None of our app's queries are this long
-                    // Probably indicates someone trying to send an overly expensive query
-                    throw new Error('Query too large.');
-                }
+  app.use('/graphql', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user) => {
+      graphqlExpress(() => {
+        // Get the query, the same way express-graphql does it
+        // https://github.com/graphql/express-graphql/blob/3fa6e68582d6d933d37fa9e841da5d2aa39261cd/src/index.js#L257
+        const query = req.query.query || req.body.query;
+        if (query && query.length > 2000) {
+          // None of our app's queries are this long
+          // Probably indicates someone trying to send an overly expensive query
+          throw new Error('Query too large.');
+        }
 
-                return {
-                    schema,
-                    context: Object.assign({ user }, req.context),
-                    debug: true,
-                    formatError(e) { console.log(e) },
-                };
-            })(req, res, next);
-        })(req, res, next);
-    });
+        return {
+          schema,
+          context: Object.assign({ user }, req.context),
+          debug: true,
+          formatError(e) { console.log(e) },
+        };
+      })(req, res, next);
+    })(req, res, next);
+  });
 
-    app.use('/graphiql', graphiqlExpress({
-        endpointURL: '/graphql',
-    }));
+  app.use('/graphiql', graphiqlExpress({
+    endpointURL: '/graphql',
+  }));
 
-    app.listen(PORT, () => console.log(
-        `API Server is now running on http://localhost:${PORT}`
-    ));
+  app.listen(PORT, () => console.log(
+    `API Server is now running on http://localhost:${PORT}`
+  ));
 
-    // WebSocket server for subscriptions
-    const websocketServer = createServer((request, response) => {
-        response.writeHead(404);
-        response.end();
-    });
+  // WebSocket server for subscriptions
+  const websocketServer = createServer((request, response) => {
+    response.writeHead(404);
+    response.end();
+  });
 
-    websocketServer.listen(WS_PORT, () => console.log(
-        `Websocket Server is now running on http://localhost:${WS_PORT}`
-    ));
+  websocketServer.listen(WS_PORT, () => console.log(
+    `Websocket Server is now running on http://localhost:${WS_PORT}`
+  ));
 
-    new SubscriptionServer({
-            subscriptionManager,
+  new SubscriptionServer({
+    subscriptionManager,
 
-            // the obSubscribe function is called for every new subscription
-            // and we use it to set the GraphQL context for this subscription
-            onSubscribe: (msg, params) => {
-                return Object.assign({}, params, {
-                    context: Object.assign({}, context),
-                });
-            },
-        },
-        websocketServer
-    );
+    // the obSubscribe function is called for every new subscription
+    // and we use it to set the GraphQL context for this subscription
+    onSubscribe: (msg, params) => {
+      return Object.assign({}, params, {
+        context: Object.assign({}, context),
+      });
+    },
+  },
+    websocketServer
+  );
 }
 
 startServer()
-    .then(() => {
-        console.log('All systems go');
-    })
-    .catch((e) => {
-        console.error('Uncaught error in startup');
-        console.error(e);
-        console.trace(e);
-    });
+  .then(() => {
+    console.log('All systems go');
+  })
+  .catch((e) => {
+    console.error('Uncaught error in startup');
+    console.error(e);
+    console.trace(e);
+  });
 
 // setInterval(() => console.log('interval'), 10000);
