@@ -1,4 +1,0 @@
-type Team {
-  players: [Player]!
-  teamElo: Int!
-}

@@ -1,17 +1,19 @@
-pleague graphql
+# Pleague
 
-`yarn`
+To start your Phoenix server:
 
-mv local.env to `.env` to use locally installed version of Mongo
-you can unzip, yarn and npm start the local-pleaguedb.zip to start mongo at port 3002
-or create a .env pointing to a real mongo instance:
+  * Install dependencies with `mix deps.get`
+  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+  * Start Phoenix endpoint with `mix phx.server`
 
-  DB_HOST=[value]
-  DB_PORT=[value]
-  DB_USER=[value]
-  DB_PASS=[value]
-  DB_NAME=[value]
+Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-open: [http://localhost:3000/graphiql](http://localhost:3000/graphiql?query=%7B%0A%09players%20%7B%0A%20%20%20%20name%0A%20%20%20%20elo%0A%20%20%7D%0A%7D)
+Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
-yay!
+## Learn more
+
+  * Official website: http://www.phoenixframework.org/
+  * Guides: http://phoenixframework.org/docs/overview
+  * Docs: https://hexdocs.pm/phoenix
+  * Mailing list: http://groups.google.com/group/phoenix-talk
+  * Source: https://github.com/phoenixframework/phoenix

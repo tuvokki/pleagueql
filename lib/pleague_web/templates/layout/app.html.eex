@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>The Planon league!</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <style>
+      .box {
+          display: flex;
+          margin: 10px 0 10px 10px
+      }
+
+      .player_name {
+          flex: 0;
+          flex-grow: 1;
+      }
+
+      .player_score {
+          flex: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <%= render @view_module, @view_template, assigns %>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

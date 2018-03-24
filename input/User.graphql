@@ -1,6 +1,0 @@
-type User {
-    password: String!
-    username: String!
-    email: String!
-    profile: Profile
-}

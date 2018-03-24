@@ -1,8 +1,0 @@
-type Player {
-  name: String!
-  claim: Boolean!
-  elo: Int!
-  joinDate: Date!
-  belongsTo: User
-  lastPlayed: [Date]
-}
