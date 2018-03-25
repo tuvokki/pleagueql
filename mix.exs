@@ -43,7 +43,8 @@ defmodule Pleague.Mixfile do
       {:cowboy, "~> 1.0"},
       {:absinthe, "~> 1.4.0"},
       {:absinthe_plug, "~> 1.4"},
-      {:poison, "~> 3.1.0"}
+      {:poison, "~> 3.1.0"},
+      {:distillery, "~> 1.0.0"}
     ]
   end
 
